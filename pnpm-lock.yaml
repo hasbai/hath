@@ -23,6 +23,10 @@ importers:
       vue:
         specifier: latest
         version: 3.4.31
+    devDependencies:
+      '@webgpu/types':
+        specifier: ^0.1.44
+        version: 0.1.44
 
 packages:
 
@@ -1116,6 +1120,9 @@ packages:
 
   '@vue/shared@3.4.31':
     resolution: {integrity: sha512-Yp3wtJk//8cO4NItOPpi3QkLExAr/aLBGZMmTtW9WpdwBCJpRM6zj9WgWktXAl8IDIozwNMByT45JP3tO3ACWA==}
+
+  '@webgpu/types@0.1.44':
+    resolution: { integrity: sha512-JDpYJN5E/asw84LTYhKyvPpxGnD+bAKPtpW9Ilurf7cZpxaTbxkQcGwOd7jgB9BPBrTYQ+32ufo4HiuomTjHNQ== }
 
   abbrev@1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
@@ -4654,6 +4661,8 @@ snapshots:
       vue: 3.4.31
 
   '@vue/shared@3.4.31': {}
+
+  '@webgpu/types@0.1.44': { }
 
   abbrev@1.1.1: {}
 

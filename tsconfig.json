@@ -4,5 +4,8 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "types": [
+      "@webgpu/types"
+    ]
   }
 }
