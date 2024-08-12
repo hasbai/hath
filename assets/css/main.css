@@ -1,0 +1,16 @@
+@import "font.css";
+
+#__nuxt {
+    min-height: 100vh;
+}
+
+main {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    width: 100%;
+    max-width: 768px;
+    min-height: 320px;
+    margin: 0 auto;
+    padding: 1rem;
+}
