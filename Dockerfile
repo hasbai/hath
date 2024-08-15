@@ -1,4 +1,4 @@
-FROM node:lts-alpine as builder
+FROM node:lts-slim as builder
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml /app/
