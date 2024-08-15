@@ -6,7 +6,7 @@
         "build": "nuxt build",
         "dev": "nuxt dev",
         "generate": "nuxt generate",
-        "preview": "nuxt preview",
+        "preview": "nuxt build && nuxt preview",
         "commentinstall": "nuxt prepare"
     },
     "dependencies": {
@@ -29,6 +29,8 @@
         "vue": "latest"
     },
     "devDependencies": {
+        "@iconify-json/material-symbols": "^1.1.87",
+        "@iconify-json/mdi": "^1.1.68",
         "@types/markdown-it": "^14.1.2",
         "@types/md5": "^2.3.5",
         "@types/node": "^22.2.0",

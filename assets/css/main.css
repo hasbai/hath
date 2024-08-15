@@ -3,6 +3,8 @@
 @import url(style.css);
 @import url(colors.css);
 
+@tailwind base;
+
 :focus-visible {
     outline: unset !important;
 }
@@ -10,6 +12,7 @@
 :root {
     --tw-text-opacity: 1;
     --padding-card: 1.5rem;
+    --navbar-padding: 0;
 }
 
 :root {
@@ -29,6 +32,56 @@ main {
     min-height: 320px;
     margin: 0 auto;
     padding: 1rem;
+}
+
+@layer base {
+    body,
+    blockquote,
+    input,
+    dl,
+    dd,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    hr,
+    figure,
+    p,
+    pre {
+        margin: 0;
+    }
+
+    h1 {
+        font-size: xx-large;
+        font-weight: bold;
+        margin: 1rem 0;
+        text-align: center;
+    }
+
+    h2 {
+        font-size: x-large;
+        font-weight: bold;
+        margin: 1rem 0;
+    }
+
+    a {
+        @apply text-base-content;
+    }
+
+    article p {
+        text-indent: 2em;
+    }
+
+    *,
+    ::before,
+    ::after {
+        border-width: 0;
+        border-style: solid;
+        /*noinspection CssInvalidFunction*/
+        border-color: theme('borderColor.DEFAULT', currentColor);
+    }
 }
 
 .input:focus {

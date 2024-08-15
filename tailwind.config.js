@@ -7,6 +7,11 @@ export const content = [
   "./nuxt.config.{js,ts}",
   "./app.vue",
 ];
+
+export const corePlugins = {
+  preflight: false,
+};
+
 export const darkMode = ['class', '[data-theme="dark"]'];
 export const theme = {
   extend: {

@@ -6,7 +6,7 @@
           <Icon name="mdi:menu" size="1.5rem"/>
         </label>
         <nuxt-link :to="localePath('/')"
-                   class="btn btn-ghost text-xl mx-4 lg:mx-8 xl:mx-16 2xl:mx-24">
+                   class="text-xl btn btn-ghost mx-4 lg:mx-8 xl:mx-16 2xl:mx-24">
           {{ $t('title') }}
         </nuxt-link>
         <div class="space-x-8 links sm:flex hidden">
@@ -28,12 +28,7 @@
       <div class="w-64 hidden 2xl:block" style="grid-column-start: 3"></div>
       <div class="drawer-content">
         <slot></slot>
-        <footer class="h-12 text-center text-sm text-gray-500 mt-36">
-          <nuxt-link href="https://icp.gov.moe/?keyword=20241064">
-            {{ $t('icp') }}
-          </nuxt-link>
-          <div>{{ $t('copyright') }}</div>
-        </footer>
+        <page-foot/>
       </div>
       <div class="drawer-side">
         <label class="drawer-overlay bg-transparent" for="side-bar"></label>
@@ -66,6 +61,7 @@ import Toast from "@/components/feedback/Toast.vue";
 import SwitchTheme from "~/components/header/SwitchTheme.vue";
 import SearchBar from "~/components/header/SearchBar.vue";
 import SwitchLocale from "~/components/header/SwitchLocale.vue";
+import PageFoot from "~/components/PageFoot.vue";
 
 const localePath = useLocalePath()
 const toggleDrawer = () => {

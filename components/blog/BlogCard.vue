@@ -2,7 +2,7 @@
   <div class="card sm:card-side w-full items-center bg-base-100 shadow-xl">
     <figure><img :src="`/api/image?hash=${blog.id}`" alt="background image"/></figure>
     <div class="card-body justify-evenly">
-      <nuxt-link :to="`/blog/${blog.id}`">
+      <nuxt-link :to="`/blog/${blog.id}`" class="no-underline">
         <h2 v-if="blog.title" class="card-title my-0">{{ blog.title }}</h2>
         <article class="text" v-html="$mdRenderer.render(blog.excerpt || blog.text)">
         </article>

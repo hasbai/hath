@@ -43,23 +43,6 @@
     bottom: -1em;
 }
 
-h1 {
-    font-size: xx-large;
-    font-weight: bold;
-    margin: 1rem 0;
-    text-align: center;
-}
-
-h2 {
-    font-size: x-large;
-    font-weight: bold;
-    margin: 1rem 0;
-}
-
-article p {
-    text-indent: 2em;
-}
-
 .caption {
     @apply text-sm opacity-80;
 }

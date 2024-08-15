@@ -2,7 +2,7 @@
   <dialog v-show="bus.show" id="toast" :class="bus.atTop ? 'toast-top toast-center' : 'right-4'"
           class="toast bg-transparent" popover
   >
-    <div :class="bus.type" class="alert text-base-100">
+    <div :class="bus.type" class="alert w-auto text-base-100">
       <Icon v-if="bus.type === MsgType.Info" name="mdi:info"></Icon>
       <Icon v-else-if="bus.type === MsgType.Success" name="mdi:success"></Icon>
       <Icon v-else-if="bus.type === MsgType.Warning" name="mdi:warning"></Icon>
