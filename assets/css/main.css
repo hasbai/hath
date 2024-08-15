@@ -1,0 +1,138 @@
+@import url(transition.css);
+@import url(font.css);
+@import url(style.css);
+@import url(colors.css);
+
+:focus-visible {
+    outline: unset !important;
+}
+
+:root {
+    --tw-text-opacity: 1;
+    --padding-card: 1.5rem;
+}
+
+:root {
+    overflow: initial !important; /* fix tailwind modal covers scrollbar */
+}
+
+body {
+    min-height: 100vh;
+}
+
+main {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    width: 100%;
+    max-width: 768px;
+    min-height: 320px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.input:focus {
+    outline: 0;
+}
+
+.btn-icon {
+    @apply cursor-pointer hover:text-teal-500
+}
+
+.btn-link {
+    @apply no-underline text-current text-base
+}
+
+.btn-fixed {
+    @apply fixed bottom-4 right-4 lg:bottom-8 lg:right-8 xl:right-12
+}
+
+.prose {
+    @apply max-w-full
+}
+
+.modal-box {
+    @apply no-scrollbar
+}
+
+.fold-content {
+    transition: all 0.3s;
+    opacity: 0;
+    max-height: 0;
+    margin: 0;
+}
+
+.fold:focus .fold-content {
+    opacity: 1;
+    max-height: 3rem;
+    margin-top: 0.5rem;
+}
+
+.collapse {
+    border-radius: unset;
+}
+
+.collapse-title, :where(.collapse > input[type="checkbox"]), :where(.collapse > input[type="radio"]) {
+    min-height: unset;
+    padding: 0;
+}
+
+.collapse-content {
+    padding: 0;
+}
+
+.collapse:not(.collapse-close) > :where(input[type="checkbox"]:checked ~ .collapse-content) {
+    padding-bottom: 0;
+}
+
+.h-screen {
+    height: 100dvh;
+}
+
+.snap-mandatory {
+    -webkit-overflow-scrolling: touch;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+/*for tablet, sm=640px, lg=1024px*/
+@media (min-width: 640px) and (max-width: 1024px) {
+    html, .h-screen { /* Firefox */
+        scrollbar-width: thin;
+    }
+
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f3f3f3;
+        border-radius: 2px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: rgb(230, 230, 230);
+        border-radius: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgb(200, 200, 200);
+    }
+
+    ::-webkit-scrollbar-corner {
+        background: rgb(200, 200, 200);
+    }
+}
+
+@media (max-width: 640px) {
+    html, .h-screen { /* Firefox */
+        scrollbar-width: thin;
+    }
+}

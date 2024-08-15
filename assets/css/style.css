@@ -1,0 +1,99 @@
+.kard {
+    @apply rounded-lg shadow-lg px-4 py-2 my-2;
+    --tw-shadow: 0 0 16px 0 rgb(0 0 0 / 0.1);
+}
+
+.kard-h {
+    @apply rounded-lg hover:shadow-lg px-4 py-2 bg-base-100;
+}
+
+.shadow-invert {
+    --tw-shadow: 0 0 4px 0 rgb(255 255 255 / 0.9);
+}
+
+.heroine {
+    @apply h-screen flex flex-col justify-evenly p-4;
+}
+
+.heroine > * {
+    max-width: 768px !important;
+    @apply mx-auto;
+}
+
+.big-quote {
+    position: relative;
+    text-indent: 2em;
+}
+
+.big-quote:before {
+    content: open-quote;
+    color: var(--tw-prose-captions);
+    position: absolute;
+    font-size: 4em;
+    left: calc(-1em - 4px);
+    top: -0.5em;
+}
+
+.big-quote:after {
+    content: close-quote;
+    color: var(--tw-prose-captions);
+    position: absolute;
+    font-size: 4em;
+    right: -0.5em;
+    bottom: -1em;
+}
+
+h1 {
+    font-size: xx-large;
+    font-weight: bold;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+h2 {
+    font-size: x-large;
+    font-weight: bold;
+    margin: 1rem 0;
+}
+
+article p {
+    text-indent: 2em;
+}
+
+.caption {
+    @apply text-sm opacity-80;
+}
+
+/*noinspection CssInvalidPropertyValue*/
+.text {
+    @apply prose dark:prose-invert max-w-none;
+    word-break: auto-phrase;
+}
+
+.text img {
+    @apply my-2 mx-auto cursor-pointer;
+    max-height: 50vh;
+}
+
+.simple {
+    .text {
+        @apply line-clamp-4
+    }
+
+    .text img {
+        display: none;
+    }
+
+    .text p:has(>img):after {
+        content: '[Image]';
+    }
+
+    .fold-content {
+        @apply hidden
+    }
+}
+
+.fold-content button {
+    flex: 1;
+    max-width: 6rem;
+}

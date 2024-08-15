@@ -1,0 +1,27 @@
+<template>
+  <div :class="hashColor(tag.name)"
+       class="tag caret-transparent relative inline-flex items-center">
+    <Icon name="mdi:tag" size="1.25em"></Icon>
+    {{ tag.name }}
+    <span class="hidden">
+     • {{ tag.popularity }}
+    </span>
+    <nuxt-link :to="`/tag/${tag.name}`" class="absolute w-full h-full hidden"/>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import {type Tag} from "@/models";
+
+const {tag} = defineProps<{ tag: Tag }>()
+</script>
+
+<style>
+.blog-list .tag a {
+  display: unset;
+}
+
+.tag-input .tag span {
+  display: unset;
+}
+</style>

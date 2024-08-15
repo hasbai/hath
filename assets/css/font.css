@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron');
+
+.clock-font {
+    font-family: Orbitron, sans-serif;
+}
+
+:root {
+    --font-sans: 'Noto Sans SC', system-ui, -apple-system, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-serif: 'Noto Serif SC', 'Times New Roman', serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-mono: Consolas, monospace, serif;
+}
+
+html {
+    font-family: var(--font-sans);
+}

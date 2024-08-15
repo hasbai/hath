@@ -1,0 +1,47 @@
+:root,
+[data-theme] {
+    background-color: var(--fallback-b1, oklch(var(--b1)));
+}
+
+@supports not (color: oklch(0% 0 0)) {
+    :root {
+        color-scheme: light;
+        --fallback-p: #4358bd;
+        --fallback-pc: #f3f3f3;
+        --fallback-s: #8a3d9a;
+        --fallback-sc: #f3f3f3;
+        --fallback-a: #1dcdbc;
+        --fallback-ac: #00100d;
+        --fallback-n: #2b3440;
+        --fallback-nc: #d7dde4;
+        --fallback-b1: #ffffff;
+        --fallback-b2: #f3f3f3;
+        --fallback-b3: #e5e6e6;
+        --fallback-bc: #1f2937;
+        --fallback-in: #0961bb;
+        --fallback-inc: #f3f3f3;
+        --fallback-su: #057918;
+        --fallback-suc: #f3f3f3;
+        --fallback-wa: #c95b0a;
+        --fallback-wac: #f3f3f3;
+        --fallback-er: #ac312c;
+        --fallback-erc: #f3f3f3;
+    }
+
+    :root[data-theme="dark"] {
+        color-scheme: dark;
+        --fallback-pc: #cecece;
+        --fallback-sc: #cecece;
+        --fallback-ac: #000e0c;
+        --fallback-nc: #cecece;
+        --fallback-b1: #1e252c;
+        --fallback-b2: #11171d;
+        --fallback-b3: #15191e;
+        --fallback-bc: #cecece;
+        --fallback-inc: #cecece;
+        --fallback-suc: #cecece;
+        --fallback-wac: #cecece;
+        --fallback-erc: #cecece;
+    }
+
+}

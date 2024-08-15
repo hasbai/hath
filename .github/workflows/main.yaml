@@ -1,0 +1,32 @@
+name: main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  Docker:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          #token is auto generated for you
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout Before Build
+        uses: actions/checkout@v4
+      - name: 'Create env file'
+        run: |
+          echo "${{ vars.ENV_FILE }}" > .env
+      - name: Build Image
+        run: |
+          docker build . --tag ghcr.io/${{github.actor}}/${{ github.event.repository.name }}:latest
+          docker push ghcr.io/${{github.actor}}/${{ github.event.repository.name }}:latest
+      - name: Deploy
+        run: curl -X POST ${{ secrets.DOCKER_WEBHOOK}}
