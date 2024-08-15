@@ -1,7 +1,7 @@
 FROM node:lts-alpine as builder
 WORKDIR /app
 
-COPY package.json yarn.lock /app/
+COPY package.json pnpm-lock.yaml /app/
 RUN pnpm install
 COPY . /app
 RUN pnpm build
