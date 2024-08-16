@@ -1,189 +1,73 @@
 <template>
-  <div ref="loader" :class="{'animation': loading}"
-       class="loader cursor-pointer caret-transparent" @click="onClick"
-  >
-    <div class="circles">
-      <span class="one"></span>
-      <span class="two"></span>
-      <span class="three"></span>
+  <transition name="fade">
+    <div v-if="loading" class="overlay">
+      <div class="loader"></div>
     </div>
-    <div class="pacman">
-      <span class="top"></span>
-      <span class="bottom"></span>
-      <span class="left"></span>
-      <div class="eye"></div>
-    </div>
-  </div>
+    <slot v-else></slot>
+  </transition>
 </template>
-
 <script lang="ts" setup>
-const loading = defineModel<boolean>()
+import {useAttrs} from "vue";
 
-const emit = defineEmits(['intersect'])
+defineProps<{ loading: Boolean }>()
+const attrs = useAttrs()
 
-const onClick = () => {
-  if (!loading.value) {
-    emit('intersect')
-  }
-}
-
-const loader = ref<HTMLElement | null>(null)
-onMounted(() => {
-  const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && loading.value) {
-            emit('intersect')
-          }
-        });
-      },
-      {
-        root: null,
-        threshold: 0.5,
-      }
-  )
-  observer.observe(loader.value!)
+const red = '#c62828'
+const blue = '#1565c0'
+const l = computed(() => {
+  return attrs.hasOwnProperty('color') ? `${red}, ${blue}` : `currentColor, currentColor`
+})
+const middle = computed(() => {
+  return attrs.hasOwnProperty('color') ? '#81608d' : 'currentColor'
 })
 </script>
-
-
 <style scoped>
 .loader {
-  position: relative;
-  height: 60px;
-  width: 160px;
-  margin: 2rem auto;
-  align-self: center;
-}
-
-.circles {
   position: absolute;
-  left: -5px;
-  top: 0;
-  height: 60px;
-  width: 180px
+  width: 3em;
+  max-height: 60%;
+  aspect-ratio: 1;
+  //--r: oklch(53.86% 0.194 26.72);
+  //--b: oklch(51.34% 0.16 255.67);
+  //--l: linear-gradient(var(--r, var(--fallback-r)), var(--b, var(--fallback-b)));
+  --l: linear-gradient(v-bind(l));
+  --r1: radial-gradient(farthest-side at bottom, v-bind(middle) 93%, transparent);
+  --r2: radial-gradient(farthest-side at top, v-bind(middle) 93%, transparent);
+  background: var(--l), var(--r1), var(--r2),
+  var(--l), var(--r1), var(--r2),
+  var(--l), var(--r1), var(--r2);
+  background-repeat: no-repeat;
+  animation: l2 1s infinite alternate;
 }
 
-.circles span {
-  position: absolute;
-  top: 25px;
-  height: 12px;
-  width: 12px;
-  border-radius: 12px;
-  background-color: #e64a19
-}
-
-.circles span.one {
-  right: 80px
-}
-
-.circles span.two {
-  right: 40px
-}
-
-.circles span.three {
-  right: 0px
-}
-
-.animation .circles {
-  -webkit-animation: animcircles 0.5s infinite linear;
-  animation: animcircles 0.5s infinite linear
-}
-
-@keyframes animcircles {
-  0% {
-    transform: translate(0px, 0px)
-  }
-  100% {
-    transform: translate(-40px, 0px)
-  }
-}
-
-.pacman {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 60px;
-  width: 60px;
-}
-
-.pacman .eye {
-  position: absolute;
-  top: 10px;
-  left: 30px;
-  height: 7px;
-  width: 7px;
-  border-radius: 7px;
-  background-color: #1C163A
-}
-
-.pacman span {
+.overlay {
   position: absolute;
   top: 0;
   left: 0;
-  height: 60px;
-  width: 60px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
 }
 
-.pacman span::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  height: 30px;
-  width: 60px;
-  background-color: #fbc02d
-}
-
-.pacman .top::before {
-  top: 0;
-  border-radius: 60px 60px 0px 0px;
-}
-
-.pacman .bottom::before {
-  bottom: 0;
-  border-radius: 0px 0px 60px 60px
-}
-
-.pacman .left::before {
-  bottom: 0;
-  height: 60px;
-  width: 30px;
-  border-radius: 60px 0px 0px 60px
-}
-
-.pacman .top {
-  transform: rotate(-22.5deg);
-}
-
-.pacman .bottom {
-  transform: rotate(22.5deg);
-}
-
-.animation .pacman .top {
-  -webkit-animation: animtop 0.5s infinite;
-  animation: animtop 0.5s infinite;
-}
-
-.animation .pacman .bottom {
-  -webkit-animation: animbottom 0.5s infinite;
-  animation: animbottom 0.5s infinite
-}
-
-@keyframes animtop {
-  0%, 100% {
-    transform: rotate(0deg)
+@keyframes l2 {
+  0%, 25% {
+    background-size: 0.5em 0, 0.5em 0.25em, 0.5em 0.25em, 0.5em 0, 0.5em 0.25em, 0.5em 0.25em, 0.5em 0, 0.5em 0.25em, 0.5em 0.25em;
+    background-position: 0 50%, 0 calc(50% - 0.125em), 0 calc(50% + 0.125em), 50% 50%, 50% calc(50% - 0.125em), 50% calc(50% + 0.125em), 100% 50%, 100% calc(50% - 0.125em), 100% calc(50% + 0.125em);
   }
   50% {
-    transform: rotate(-45deg)
+    background-size: 0.5em 100%, 0.5em 0.25em, 0.5em 0.25em, 0.5em 0, 0.5em 0.25em, 0.5em 0.25em, 0.5em 0, 0.5em 0.25em, 0.5em 0.25em;
+    background-position: 0 50%, 0 calc(0% - 0.125em), 0 calc(100% + 0.125em), 50% 50%, 50% calc(50% - 0.125em), 50% calc(50% + 0.125em), 100% 50%, 100% calc(50% - 0.125em), 100% calc(50% + 0.125em);
   }
-}
-
-@keyframes animbottom {
-  0%, 100% {
-    transform: rotate(0deg)
+  75% {
+    background-size: 0.5em 100%, 0.5em 0.25em, 0.5em 0.25em, 0.5em 100%, 0.5em 0.25em, 0.5em 0.25em, 0.5em 0, 0.5em 0.25em, 0.5em 0.25em;
+    background-position: 0 50%, 0 calc(0% - 0.125em), 0 calc(100% + 0.125em), 50% 50%, 50% calc(0% - 0.125em), 50% calc(100% + 0.125em), 100% 50%, 100% calc(50% - 0.125em), 100% calc(50% + 0.125em);
   }
-  50% {
-    transform: rotate(45deg)
+  95%, 100% {
+    background-size: 0.5em 100%, 0.5em 0.25em, 0.5em 0.25em, 0.5em 100%, 0.5em 0.25em, 0.5em 0.25em, 0.5em 100%, 0.5em 0.25em, 0.5em 0.25em;
+    background-position: 0 50%, 0 calc(0% - 0.125em), 0 calc(100% + 0.125em), 50% 50%, 50% calc(0% - 0.125em), 50% calc(100% + 0.125em), 100% 50%, 100% calc(0% - 0.125em), 100% calc(100% + 0.125em);
   }
 }
 </style>

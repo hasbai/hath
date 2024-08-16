@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import Loader from "@/components/Loader.vue";
+import Loader from "~/components/Pacman.vue";
 import {Blog} from "@/models";
 
 const {loadFunction} = defineProps<{ loadFunction: Function }>()

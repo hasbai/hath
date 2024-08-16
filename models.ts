@@ -60,13 +60,11 @@ export class Board extends Model {
 }
 
 export class Content extends Model {
-  static override exclude = ['identity', 'is_me', 'likes', 'liked', 'rank']
+  static override exclude = ['is_me', 'rank']
   public id: UUID
   public parent_id: UUID
   public type: string
   public text: string
-  public anonymous: boolean
-  public identity?: string
   public is_me?: boolean
   public likes: number
   public liked?: boolean
@@ -79,9 +77,6 @@ export class Content extends Model {
     this.parent_id = new UUID(obj.parent_id)
     this.type = obj.type
     this.text = obj.text || ''
-    // noinspection PointlessBooleanExpressionJS,RedundantConditionalExpressionJS
-    this.anonymous = obj.anonymous === false ? false : true
-    this.identity = obj.identity
     this.is_me = obj.is_me
     this.likes = obj.likes
     this.liked = obj.liked
@@ -116,13 +111,11 @@ export class Content extends Model {
 
 export class Comment extends Content {
   public reply_to?: UUID
-  public images?: string[]
   public deleted?: boolean
 
   constructor(obj: any) {
     super(obj)
     this.reply_to = obj.reply_to ? new UUID(obj.reply_to) : undefined
-    this.images = obj.images || []
     this.deleted = obj.deleted
     this.type = 'comment'
   }

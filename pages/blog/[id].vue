@@ -30,15 +30,20 @@
     <div id="comments" class="flex flex-col gap-2">
       <h2>{{ $t('comment') }}</h2>
       <comment-list :parent_id="blog.id.toString()"/>
+      <edit-comment :comment="new Comment({
+        parent_id: blog.id,
+      })" class="mt-4"
+                    @created="onCommentCreated"/>
     </div>
   </main>
 </template>
 
 <script lang="ts" setup>
 import {select} from "@/composables/myFetch";
-import {Blog, UUID} from "@/models";
+import {Blog, Comment, UUID} from "@/models";
 import TagBadge from "@/components/tag/TagBadge.vue";
 import CommentList from "@/components/list/CommentList.vue";
+import EditComment from "~/components/comment/EditComment.vue";
 
 definePageMeta({
   keepalive: true,
@@ -91,5 +96,9 @@ const onLikeClick = () => {
 useSeoMeta({
   title: () => blog.title || useNuxtApp().$i18n.t('blog'),
 })
+
+const onCommentCreated = (c: Comment) => {
+  blog.comment++
+}
 
 </script>>
