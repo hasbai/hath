@@ -1,6 +1,6 @@
 <template>
   <transition-group
-      class="blog-list w-full relative space-y-6 lg:space-y-8"
+      class="blog-list relative space-y-6 lg:space-y-8"
       name="list" tag="div"
   >
     <BlogCard
