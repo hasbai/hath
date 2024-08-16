@@ -5,7 +5,9 @@
     </Reply>
     <div class="flex flex-col">
       <user-badge v-if="comment.user" :user="comment.user">
-        <span class="caption">{{ comment.id.getTime().toLocaleString() }}</span>
+        <span class="caption"><client-only>
+          {{ comment.id.getTime().toLocaleString() }}
+        </client-only></span>
       </user-badge>
       <div class="text px-4 py-1" v-html="$mdRenderer.render(comment.text)"></div>
     </div>

@@ -1,14 +1,16 @@
 <template>
   <main class="gap-4">
-    <img :src="`/api/image?hash=${blog.id}`"
-         alt="background image" class="rounded-2xl"/>
+    <h-img :src="`/api/image?hash=${blog.id}`" alt="background image"
+           class="rounded-2xl" style="height: 33dvh"/>
     <h1 v-if="blog.title" class="h1 text-center">{{ blog.title }}</h1>
     <div class="relative -top-4 flex justify-between items-center text-sm">
       <span class="w-20"></span>
       <div class="inline-flex gap-2">
         <TagBadge v-for="tag in blog.tags" :key="tag.id.toString()" :tag="tag"/>
       </div>
-      <span class="w-20">{{ blog.id.getTime().toLocaleDateString() }}</span>
+      <span class="w-20"><client-only>
+        {{ blog.id.getTime().toLocaleDateString() }}
+      </client-only></span>
     </div>
     <article class="text" v-html="$mdRenderer.render(blog.text)"></article>
     <div class="flex flex-col">
@@ -90,13 +92,4 @@ useSeoMeta({
   title: () => blog.title || useNuxtApp().$i18n.t('blog'),
 })
 
-</script>
-<style scoped>
-main > img {
-  max-height: 33dvh;
-  object-fit: cover;
-}
-
-article {
-}
-</style>
+</script>>

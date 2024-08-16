@@ -1,7 +1,9 @@
 <template>
   <div class="card sm:card-side w-full items-center bg-base-100 shadow-xl"
        @click="navigateTo(`/blog/${blog.id}`)">
-    <figure><img :src="`/api/image?hash=${blog.id}`" alt="background image"/></figure>
+    <figure>
+      <h-img :src="`/api/image?hash=${blog.id}`" alt="background image"/>
+    </figure>
     <div class="card-body justify-evenly">
       <div class="cursor-default">
         <h2 v-if="blog.title" class="card-title my-0">{{ blog.title }}</h2>
@@ -9,7 +11,9 @@
         </article>
       </div>
       <div class="flex justify-between items-center text-sm">
-        <span>{{ blog.id.getTime().toLocaleDateString() }}</span>
+        <span><client-only>
+          {{ blog.id.getTime().toLocaleDateString() }}
+        </client-only></span>
         <div class="inline-flex gap-2">
           <TagBadge v-for="tag in blog.tags" :key="tag.id.toString()" :tag="tag"/>
         </div>
@@ -27,6 +31,7 @@
 <script lang="ts" setup>
 import {type Blog} from '@/models'
 import TagBadge from "@/components/tag/TagBadge.vue";
+import HImg from "~/components/HImg.vue";
 
 const {blog} = defineProps<{ blog: Blog }>()
 const {$mdRenderer} = useNuxtApp()
