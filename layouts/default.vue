@@ -81,6 +81,10 @@ const toggleDrawer = () => {
   top: 1px;
 }
 
+.links > a {
+  @apply no-underline hover:underline text-current text-base;
+}
+
 .drawer-overlay {
   background: transparent !important;
 }

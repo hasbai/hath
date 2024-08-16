@@ -50,6 +50,7 @@ main {
     p,
     pre {
         margin: 0;
+        box-sizing: border-box;
     }
 
     ul {
@@ -94,10 +95,6 @@ main {
 
 .btn-icon {
     @apply cursor-pointer hover:text-teal-500
-}
-
-.btn-link {
-    @apply no-underline text-current text-base
 }
 
 .btn-fixed {
