@@ -181,12 +181,12 @@ export const useToast = defineStore('toast', () => {
 
   const info = (message: string, duration = 3000) => run(MsgType.Info, message, duration)
   const success = (message: string, duration = 3000) => run(MsgType.Success, message, duration)
-  const warning = (message: string, duration = 3000) => run(MsgType.Warning, message, duration)
-  const error = (message: string, duration = 3000) => run(MsgType.Error, message, duration)
+  const warning = (message: string, duration = 5000) => run(MsgType.Warning, message, duration)
+  const error = (message: string, duration = 8000) => run(MsgType.Error, message, duration)
   const Info = (message: string, duration = 3000) => run(MsgType.Info, message, duration, true)
   const Success = (message: string, duration = 3000) => run(MsgType.Success, message, duration, true)
-  const Warning = (message: string, duration = 3000) => run(MsgType.Warning, message, duration, true)
-  const Error = (message: string, duration = 3000) => run(MsgType.Error, message, duration, true)
+  const Warning = (message: string, duration = 5000) => run(MsgType.Warning, message, duration, true)
+  const Error = (message: string, duration = 8000) => run(MsgType.Error, message, duration, true)
 
   return {
     show,

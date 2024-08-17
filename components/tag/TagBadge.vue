@@ -6,7 +6,7 @@
     <span class="hidden">
      • {{ tag.popularity }}
     </span>
-    <nuxt-link :to="`/tag/${tag.name}`" class="absolute w-full h-full hidden"/>
+    <nuxt-link :to="`/tag/${tag.name}`" class="absolute w-full h-full"/>
   </div>
 </template>
 
@@ -17,11 +17,11 @@ const {tag} = defineProps<{ tag: Tag }>()
 </script>
 
 <style>
-.blog-list .tag a {
+.tag-input .tag span {
   display: unset;
 }
 
-.tag-input .tag span {
-  display: unset;
+.tag-input .tag a {
+  display: none;
 }
 </style>

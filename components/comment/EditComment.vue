@@ -16,6 +16,7 @@
 import {Comment} from "@/models";
 
 const {comment} = defineProps<{ comment: Comment }>()
+const emit = defineEmits(['created'])
 
 const loading = ref(false)
 const supabase = useSupabaseClient()
@@ -23,17 +24,26 @@ const toast = useToast()
 const onClick = async () => {
   loading.value = true
   const {
-    data,
     status,
     error
-  } = await supabase.from('comment').upsert(comment as never).select().single<Comment>()
-  loading.value = false
+  } = await supabase.from('comment').upsert(comment as never)
   if (error) {
     toast.Error(error.message)
+    loading.value = false
     return
   }
-  console.log(status, data)
-  Object.assign(comment, new Comment(data))
+  if (status === 201) {
+    const {data, error} = await supabase.from('comments').select().eq('id', comment.id).single()
+    if (error) {
+      toast.Error(error.message)
+      loading.value = false
+      return
+    }
+    emit('created', new Comment(data))
+  }
+  loading.value = false
+  Object.assign(comment, new Comment({parent_id: comment.parent_id}))
+  console.log(comment.parent_id.toString())
 }
 </script>
 

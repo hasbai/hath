@@ -50,7 +50,7 @@
 /*noinspection CssInvalidPropertyValue*/
 .text {
     @apply prose dark:prose-invert max-w-none;
-    word-break: auto-phrase;
+    word-break: break-word;
 }
 
 .text img {

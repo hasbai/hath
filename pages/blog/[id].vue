@@ -1,7 +1,7 @@
 <template>
   <main class="gap-4">
     <h-img :src="`/api/image?hash=${blog.id}`" alt="background image"
-           class="rounded-2xl" style="height: 33dvh"/>
+           class="rounded-2xl" style="height: 30vh"/>
     <h1 v-if="blog.title" class="h1 text-center">{{ blog.title }}</h1>
     <div class="relative -top-4 flex justify-between items-center text-sm">
       <span class="w-20"></span>
@@ -29,17 +29,14 @@
     </div>
     <div id="comments" class="flex flex-col gap-2">
       <h2>{{ $t('comment') }}</h2>
-      <comment-list :parent_id="blog.id.toString()"/>
-      <edit-comment :comment="new Comment({
-        parent_id: blog.id,
-      })" class="mt-4"
-                    @created="onCommentCreated"/>
+      <comment-list :comments="blog.comments"/>
+      <edit-comment :comment="new Comment({parent_id: blog.id})"
+                    class="mt-4" @created="onCommentCreated"/>
     </div>
   </main>
 </template>
 
 <script lang="ts" setup>
-import {select} from "@/composables/myFetch";
 import {Blog, Comment, UUID} from "@/models";
 import TagBadge from "@/components/tag/TagBadge.vue";
 import CommentList from "@/components/list/CommentList.vue";
@@ -81,7 +78,7 @@ const {data} = await useAsyncData(async () => {
   const d = await blogFromCache()
   if (d) return d
   const {data} = await supabase.from('blogs')
-      .select(select.blog)
+      .select('*,tags:tag(*),comments(*)')
       .eq(type, value)
       .single<Blog>()
   return data
@@ -98,7 +95,7 @@ useSeoMeta({
 })
 
 const onCommentCreated = (c: Comment) => {
-  blog.comment++
+  blog.comments?.push(c)
 }
 
 </script>>

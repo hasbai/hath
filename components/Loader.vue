@@ -1,25 +1,18 @@
 <template>
   <transition name="fade">
     <div v-if="loading" class="overlay">
-      <div class="loader"></div>
+      <div :class="{'color': attrs.color != undefined}" class="loader"></div>
     </div>
     <slot v-else></slot>
   </transition>
 </template>
 <script lang="ts" setup>
-import {useAttrs} from "vue";
-
 defineProps<{ loading: Boolean }>()
 const attrs = useAttrs()
+// const red = oklch(53.86% 0.194 26.72);
+// const blue = oklch(51.34% 0.16 255.67);
+//--l: linear-gradient(var(--r, var(--fallback-r)), var(--b, var(--fallback-b)));
 
-const red = '#c62828'
-const blue = '#1565c0'
-const l = computed(() => {
-  return attrs.hasOwnProperty('color') ? `${red}, ${blue}` : `currentColor, currentColor`
-})
-const middle = computed(() => {
-  return attrs.hasOwnProperty('color') ? '#81608d' : 'currentColor'
-})
 </script>
 <style scoped>
 .loader {
@@ -27,17 +20,20 @@ const middle = computed(() => {
   width: 3em;
   max-height: 60%;
   aspect-ratio: 1;
-  //--r: oklch(53.86% 0.194 26.72);
-  //--b: oklch(51.34% 0.16 255.67);
-  //--l: linear-gradient(var(--r, var(--fallback-r)), var(--b, var(--fallback-b)));
-  --l: linear-gradient(v-bind(l));
-  --r1: radial-gradient(farthest-side at bottom, v-bind(middle) 93%, transparent);
-  --r2: radial-gradient(farthest-side at top, v-bind(middle) 93%, transparent);
+  --l: linear-gradient(currentColor, currentColor);
+  --middle: currentColor;
+  --r1: radial-gradient(farthest-side at bottom, var(--middle) 93%, transparent);
+  --r2: radial-gradient(farthest-side at top, var(--middle) 93%, transparent);
   background: var(--l), var(--r1), var(--r2),
   var(--l), var(--r1), var(--r2),
   var(--l), var(--r1), var(--r2);
   background-repeat: no-repeat;
   animation: l2 1s infinite alternate;
+}
+
+.color {
+  --l: linear-gradient(#c62828, #1565c0);
+  --middle: #81608d;
 }
 
 .overlay {

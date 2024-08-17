@@ -4,12 +4,10 @@
     <figure>
       <h-img :src="`/api/image?hash=${blog.id}`" alt="background image"/>
     </figure>
-    <div class="card-body justify-evenly">
-      <div class="cursor-default">
-        <h2 v-if="blog.title" class="card-title my-0">{{ blog.title }}</h2>
-        <article class="text" v-html="$mdRenderer.render(blog.excerpt || blog.text)">
-        </article>
-      </div>
+    <div class="card-body gap-0 justify-evenly">
+      <h2 v-if="blog.title" class="card-title my-0 cursor-default">{{ blog.title }}</h2>
+      <article class="text cursor-default" v-html="$mdRenderer.render(blog.excerpt || blog.text)">
+      </article>
       <div class="flex justify-between items-center text-sm">
         <span><client-only>
           {{ blog.id.getTime().toLocaleDateString() }}
@@ -45,19 +43,22 @@ const {$mdRenderer} = useNuxtApp()
 
 @media (max-width: 640px) {
   .card > figure {
-    height: 25dvh;
+    height: 25vh;
     width: 100%;
   }
 
   .card-body {
     padding-top: 1rem;
     padding-bottom: 0.5rem;
+    gap: 0.5rem;
   }
 }
 
 @media (min-width: 640px) {
   .card {
-    height: 30dvh;
+    height: 30vh;
+    min-height: 10rem;
+    max-height: 14rem;
   }
 
   .card-body {
@@ -70,9 +71,7 @@ const {$mdRenderer} = useNuxtApp()
   }
 }
 
-figure > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+article > * {
+  margin: 0;
 }
 </style>

@@ -45,6 +45,26 @@
     position: absolute;
 }
 
+.list-b-move,
+.list-b-enter-active,
+.list-b-leave-active {
+    transition: all 0.5s ease;
+}
+
+.list-b-enter-from {
+    opacity: 0;
+    transform: translateY(2em);
+}
+
+.list-b-leave-to {
+    opacity: 0;
+    transform: translateY(-2em);
+}
+
+.list-b-leave-active {
+    position: absolute;
+}
+
 .list-x-move,
 .list-x-enter-active,
 .list-x-leave-active {

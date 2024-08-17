@@ -32,7 +32,8 @@ class Model {
   constructor(obj: any) {
   }
 
-  static fromArray<T>(arr: any[]): T[] {
+  static fromArray<T>(arr?: any[]): T[] {
+    if (!arr) return <any>undefined
     return arr.map(obj => <T>new this(obj))
   }
 
@@ -60,7 +61,7 @@ export class Board extends Model {
 }
 
 export class Content extends Model {
-  static override exclude = ['is_me', 'rank']
+  static override exclude = ['is_me', 'rank', 'liked', 'user']
   public id: UUID
   public parent_id: UUID
   public type: string
@@ -132,7 +133,7 @@ export class PollOption extends Content {
 
 export class Blog extends Content {
   static override exclude = [
-    'updated_at', 'reply', 'view', 'locked', 'tags', 'pollOptions',
+    'updated_at', 'reply', 'view', 'locked', 'tags', 'comments',
     ...Content.exclude,
   ]
 
@@ -143,7 +144,7 @@ export class Blog extends Content {
   view?: number
   locked?: boolean
   tags?: Tag[]
-  pollOptions: PollOption[]
+  comments?: Comment[]
 
   constructor(obj: any) {
     super(obj)
@@ -153,9 +154,8 @@ export class Blog extends Content {
     this.reply = obj.reply
     this.view = obj.view
     this.locked = obj.locked
-    // @ts-ignore
-    this.tags = obj.tags ? Tag.fromArray(obj.tags) : []
-    this.pollOptions = []
+    this.tags = Tag.fromArray(obj.tags)
+    this.comments = Comment.fromArray(obj.comments)
     this.type = 'blog'
   }
 }

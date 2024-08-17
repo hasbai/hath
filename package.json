@@ -34,6 +34,7 @@
         "@types/markdown-it": "^14.1.2",
         "@types/md5": "^2.3.5",
         "@types/node": "^22.2.0",
-        "@types/uslug": "^1.0.4"
+        "@types/uslug": "^1.0.4",
+        "tailwindcss": "^3.4.10"
     }
 }
