@@ -16,7 +16,7 @@
           <TagBadge v-for="tag in blog.tags" :key="tag.id.toString()" :tag="tag"/>
         </div>
         <span class="inline-flex items-center">
-            <Icon name="mdi:eye-outline"/>&nbsp;{{ blog.view }}
+            <Icon name="mdi:eye-outline"/>&nbsp;{{ blog.views }}
             &nbsp;
             <Icon name="mdi:heart-outline"/>&nbsp;{{ blog.likes }}
           </span>

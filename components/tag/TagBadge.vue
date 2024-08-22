@@ -2,10 +2,7 @@
   <div :class="hashColor(tag.name)"
        class="tag caret-transparent relative inline-flex items-center">
     <Icon name="mdi:tag" size="1.25em"></Icon>
-    {{ tag.name }}
-    <span class="hidden">
-     • {{ tag.popularity }}
-    </span>
+    &nbsp;{{ tag.name }}
     <nuxt-link :to="`/tag/${tag.name}`" class="absolute w-full h-full"/>
   </div>
 </template>
@@ -17,10 +14,6 @@ const {tag} = defineProps<{ tag: Tag }>()
 </script>
 
 <style>
-.tag-input .tag span {
-  display: unset;
-}
-
 .tag-input .tag a {
   display: none;
 }

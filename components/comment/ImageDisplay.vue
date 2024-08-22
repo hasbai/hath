@@ -8,14 +8,21 @@
         <Icon name="mdi:close"/>
       </button>
     </div>
+    <div class="flex justify-center items-center cursor-pointer">
+      <Icon name="mdi:add" size="4em"></Icon>
+      <input ref="fileInput" accept="image/*"
+             class="file-input w-full h-full top-0 left-0 absolute opacity-0"
+             multiple name="image-input" type="file"
+             @change="onFileInputChange"/>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
 import {useSupabaseClient} from "@/.nuxt/imports";
 import {normalizeStorageSrc} from "@/composables/utils";
 
-const {images} = defineProps<{ images?: Array<string> }>()
-const gridCols = computed(() => images && Math.min(images.length, 3))
+const {images} = defineProps<{ images: Array<string> }>()
+const gridCols = computed(() => images && Math.min(images.length + 1, 3))
 const supabase = useSupabaseClient()
 const removeImage = async (index: number) => {
   const uid = images![index].split('/').pop()
@@ -30,12 +37,41 @@ const viewImage = (e: MouseEvent) => {
   const dialog = document.getElementById('image_viewer') as HTMLDialogElement
   dialog.showModal()
 }
+
+const toast = useToast()
+const fileInput = ref<HTMLInputElement | null>(null)
+const onFileInputChange = async () => {
+  const files = fileInput.value?.files
+  if (!files) return
+  for (let file of files) {
+    const uid = await hash(file)
+    const {error} = await supabase.storage.from('image').upload(uid, file)
+    if (error && (<any>error).statusCode != '409') {
+      toast.Error(error.message)
+      console.error(error)
+    } else {
+      images.push(`/storage/v1/object/public/image/${uid}`)
+    }
+  }
+}
+
+const hash = async (file: File) => {
+  try {
+    const digest = await crypto.subtle.digest('SHA-256', await file.arrayBuffer())
+    return btoa(String.fromCharCode(...new Uint8Array(digest)))
+        .replaceAll('+', '-')
+        .replaceAll('/', '_')
+  } catch (e) {
+    console.error('Failed to hash file, use UUID instead. ', e)
+    return crypto.randomUUID()
+  }
+}
 </script>
 <style>
 .img-grid {
   display: grid;
-  grid-template-columns: repeat(v-bind(gridCols), minmax(0, 8rem));
-  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(v-bind(gridCols), minmax(1fr, 8rem));
+  grid-auto-rows: minmax(1fr, 8rem);
   gap: 1rem;
   justify-content: center;
   align-items: center;

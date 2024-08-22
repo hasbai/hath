@@ -15,7 +15,7 @@
     <article class="text" v-html="$mdRenderer.render(blog.text)"></article>
     <div class="flex flex-col">
       <div class="flex justify-end items-center">
-        <Icon name="mdi:eye-outline"/>&nbsp;{{ blog.view }}
+        <Icon name="mdi:eye-outline"/>&nbsp;{{ blog.views }}
         &nbsp;&nbsp;
         <Icon name="mdi:heart-outline"/>&nbsp;{{ blog.likes }}
       </div>

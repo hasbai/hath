@@ -1,10 +1,10 @@
 <template>
   <main>
     <blog-list ref="list" :load-function="loadFunction"></blog-list>
-    <button class="btn btn-fixed btn-lg btn-circle btn-primary" @click="edit">
+    <button class="btn btn-fixed btn-lg btn-circle btn-primary"
+            @click="navigateTo('/admin/blog/edit')">
       <Icon name="ic:baseline-edit" size="1.5rem"/>
     </button>
-    <!--    <EditBlog :parent_id="index" @success="unshift"/>-->
   </main>
 </template>
 

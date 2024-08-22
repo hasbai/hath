@@ -33,7 +33,7 @@ class Model {
   }
 
   static fromArray<T>(arr?: any[]): T[] {
-    if (!arr) return <any>undefined
+    if (!arr) return <T[]>[]
     return arr.map(obj => <T>new this(obj))
   }
 
@@ -65,8 +65,10 @@ export class Content extends Model {
   public id: UUID
   public parent_id: UUID
   public type: string
+  public title?: string
   public text: string
   public is_me?: boolean
+  public views: number
   public likes: number
   public liked?: boolean
   public rank?: number
@@ -77,9 +79,11 @@ export class Content extends Model {
     this.id = new UUID(obj.id)
     this.parent_id = new UUID(obj.parent_id)
     this.type = obj.type
+    this.title = obj.title
     this.text = obj.text || ''
-    this.is_me = obj.is_me
+    this.views = obj.views
     this.likes = obj.likes
+    this.is_me = obj.is_me
     this.liked = obj.liked
     this.rank = obj.rank
     this.user = obj.user
@@ -133,29 +137,27 @@ export class PollOption extends Content {
 
 export class Blog extends Content {
   static override exclude = [
-    'updated_at', 'reply', 'view', 'locked', 'tags', 'comments',
+    'updated_at', 'reply', 'tags', 'comments',
     ...Content.exclude,
   ]
 
-  title?: string
   excerpt?: string
   updated_at?: Date
   reply?: number
-  view?: number
   locked?: boolean
+  images?: string[]
   tags?: Tag[]
   comments?: Comment[]
 
   constructor(obj: any) {
     super(obj)
     this.updated_at = new Date(obj.updated_at)
-    this.title = obj.title
     this.excerpt = obj.excerpt
     this.reply = obj.reply
-    this.view = obj.view
     this.locked = obj.locked
     this.tags = Tag.fromArray(obj.tags)
     this.comments = Comment.fromArray(obj.comments)
+    this.images = obj.images || []
     this.type = 'blog'
   }
 }

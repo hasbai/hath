@@ -1,11 +1,11 @@
 <template>
   <div class="tag-input">
-    <div class="flex flex-wrap items-center mb-2 space-x-1">
+    <div class="flex flex-wrap items-center gap-2 mb-2">
       <TagBadge v-for="tag in selectedTags" :key="tag.id"
                 :tag="tag" class="mx-0.5 my-0.5 cursor-pointer" cnt
                 @click.stop="select(tag, true)"/>
       <button class="btn btn-xs" @click.stop="showInputCallback">
-        Add Tag
+        +
       </button>
     </div>
     <Transition name="fade">
@@ -18,7 +18,7 @@
           <Icon class="absolute right-3 top-3" name="material-symbols:search" size="1.5em"/>
           <ClientOnly>
             <TransitionGroup
-                class="menu flex-row h-56 w-full mt-4 rounded-lg shadow-lg
+                class="menu flex-row w-full mt-4 rounded-lg shadow-lg
                        bg-base-100 border border-base-content/20
                        overflow-y-auto no-scrollbar text-base sm:text-sm"
                 name="list"
