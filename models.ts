@@ -65,6 +65,7 @@ export class Content extends Model {
   public id: UUID
   public parent_id: UUID
   public type: string
+  public title: string
   public text: string
   public is_me?: boolean
   public likes: number
@@ -77,6 +78,7 @@ export class Content extends Model {
     this.id = new UUID(obj.id)
     this.parent_id = new UUID(obj.parent_id)
     this.type = obj.type
+    this.title = obj.title
     this.text = obj.text || ''
     this.is_me = obj.is_me
     this.likes = obj.likes
@@ -137,7 +139,6 @@ export class Blog extends Content {
     ...Content.exclude,
   ]
 
-  title?: string
   excerpt?: string
   updated_at?: Date
   reply?: number
@@ -149,7 +150,6 @@ export class Blog extends Content {
   constructor(obj: any) {
     super(obj)
     this.updated_at = new Date(obj.updated_at)
-    this.title = obj.title
     this.excerpt = obj.excerpt
     this.reply = obj.reply
     this.view = obj.view
@@ -157,6 +157,28 @@ export class Blog extends Content {
     this.tags = Tag.fromArray(obj.tags)
     this.comments = Comment.fromArray(obj.comments)
     this.type = 'blog'
+  }
+}
+
+export enum TorrentType {
+  MOVIE = 'movie',
+  SERIES = 'series',
+  ANIME = 'anime',
+  MUSIC = 'music',
+  GAME = 'game',
+  SOFTWARE = 'software',
+  BOOK = 'book',
+  MANGA = 'manga',
+}
+
+export class Torrent extends Content {
+  static override exclude = ['file', ...Content.exclude]
+
+  public torrent_type: TorrentType
+
+  constructor(obj: any) {
+    super(obj)
+    this.torrent_type = obj.torrent_type
   }
 }
 
