@@ -81,6 +81,7 @@ export class Content extends Model {
     this.parent_id = new UUID(obj.parent_id)
     this.type = obj.type
     this.title = obj.title
+    this.description = obj.description
     this.text = obj.text || ''
     this.is_me = obj.is_me
     this.likes = obj.likes
@@ -179,7 +180,7 @@ export class Torrent extends Content {
   public size: number
   public infohash: string
   public data: object
-  public file: Uint8Array
+  public file: string
 
   constructor(obj: any) {
     super(obj)
@@ -188,7 +189,9 @@ export class Torrent extends Content {
     this.infohash = obj.infohash
     this.file = obj.file
     this.data = obj.data
-    if (this.file && !this.data) this.data = decodeTorrentFile(this.file)
+    if (obj.file) {
+      this.file = atob(obj.file)
+    }
   }
 
   save(this) {
@@ -196,11 +199,13 @@ export class Torrent extends Content {
     this.description = this.data.comment
     this.size = this.data.length
     this.infohash = this.data.infoHash
-    this.file = encodeTorrentFile(this.data)
+    this.file = btoa(String.fromCharCode(...encodeTorrentFile(this.data)))
   }
 
   async upload(this) {
+    needAuth()
     this.save()
+
     const supabase = useSupabaseClient()
     const {error} = await supabase
       .from('torrent')
@@ -210,6 +215,7 @@ export class Torrent extends Content {
       useToast().Error(error.message)
       return
     }
+
     useToast().Success('Torrent uploaded')
   }
 }

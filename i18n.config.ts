@@ -58,6 +58,14 @@ export default defineI18nConfig(() => ({
       'torrent-size': '种子大小',
       'piece-size': '分块大小',
       'infohash': '标识码',
+      size: '大小',
+      seeders: '做种数',
+      leechers: '下载数',
+      time: '时间',
+      minutes: '分钟',
+      hours: '小时',
+      days: '天',
+      'just now': '刚刚',
     },
     en: {
       welcome: 'Welcome',
@@ -113,6 +121,10 @@ export default defineI18nConfig(() => ({
       'torrent-size': 'Torrent size',
       'piece-size': 'Piece size',
       'infohash': 'InfoHash',
+      size: 'Size',
+      seeders: 'Seeders',
+      leechers: 'Leechers',
+      time: 'Time',
     }
   }
 }))

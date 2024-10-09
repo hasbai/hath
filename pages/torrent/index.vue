@@ -1,34 +1,57 @@
 <template>
-  <main>
-    <transition-group
-        class="relative space-y-6 lg:space-y-8 my-4"
-        name="list" tag="div"
-    >
-      <TorrentCard
-          v-for="torrent in torrents"
-          :key="torrent.id.toString()"
-          :torrent="torrent"
-          class="w-full"
-      />
-    </transition-group>
+  <main class="max-w-screen-xl">
+    <table class="table break-word">
+      <thead class="text-sm">
+      <tr>
+        <th>{{ $t('category') }}</th>
+        <th>{{ $t('name') }}</th>
+        <th>{{ $t('time') }}</th>
+        <th>{{ $t('size') }}</th>
+        <th>{{ $t('seeders') }}</th>
+        <th>{{ $t('leechers') }}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="(torrent, i) in torrents" :key="i">
+        <th>
+          <icon v-if="torrent.torrent_type===TorrentType.MOVIE" name="noto-v1:movie-camera"/>
+          <icon v-else-if="torrent.torrent_type===TorrentType.SERIES" name="noto-v1:television"/>
+          <icon v-else-if="torrent.torrent_type===TorrentType.ANIME" name="noto-v1:movie-camera"/>
+          <icon v-else-if="torrent.torrent_type===TorrentType.MUSIC" name="noto-v1:musical-score"/>
+          <icon v-else-if="torrent.torrent_type===TorrentType.SOFTWARE" name="noto-v1:laptop"/>
+          <icon v-else-if="torrent.torrent_type===TorrentType.GAME" name="noto-v1:joystick"/>
+          <icon v-else-if="torrent.torrent_type===TorrentType.EBOOK" name="noto-v1:closed-book"/>
+        </th>
+        <td>
+          <div class="w-full inline-flex justify-between items-center">
+            <nuxt-link :to="`/torrent/${torrent.id}`" class="link link-hover font-bold">{{
+                torrent.title
+              }}
+            </nuxt-link>
+            <icon class="btn-icon shrink-0" name="ic:outline-cloud-download" size="1.5em"></icon>
+          </div>
+          <div>{{ torrent.description }}</div>
+        </td>
+        <td>{{ humanTime(torrent.id.getTime()) }}</td>
+        <td>{{ humanFileSize(torrent.size) }}</td>
+        <td>{{ torrent.seeders }}</td>
+        <td>{{ torrent.leechers }}</td>
+      </tr>
+      </tbody>
+    </table>
     <div class="join self-center">
-      <input
-          aria-label="1"
-          checked="checked"
-          class="join-item btn btn-square"
-          name="options"
-          type="radio"/>
-      <input aria-label="2" class="join-item btn btn-square" name="options" type="radio"/>
-      <input aria-label="3" class="join-item btn btn-square" name="options" type="radio"/>
-      <input aria-label="4" class="join-item btn btn-square" name="options" type="radio"/>
+      <input v-for="i in new Array(4).fill(1).map((v, i) => ++i)"
+             :aria-label="i" :checked="i===1"
+             class="join-item btn btn-square"
+             name="options" type="radio" @click="load(i - 1)"/>
     </div>
   </main>
 
 </template>
 
 <script lang="ts" setup>
-import TorrentCard from "~/components/torrent/TorrentCard.vue";
-import {type OrderField, Torrent} from "~/models";
+import {type OrderField, Torrent, TorrentType} from "~/models";
+import {humanTime} from "../../utils";
 
 definePageMeta({
   layout: 'torrent'
@@ -38,15 +61,14 @@ useSeoMeta({
 })
 
 const torrents = reactive<Torrent[]>([])
-let page = ref(0)
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 50
 const order = ref<OrderField>('id')
 
 const supabase = useSupabaseClient()
 const toast = useToast()
 const load = async (page: number = 0) => {
-  let query = supabase.from('torrent').select('*')
+  let query = supabase.from('torrents').select()
       .order(order.value, {ascending: false})
       .range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1)
   const {data, error} = await query
@@ -59,9 +81,16 @@ const load = async (page: number = 0) => {
   torrents.push(...Torrent.fromArray<Torrent>(data))
 }
 
-await load(page.value)
+await load(0)
 </script>
 
 <style scoped>
+tbody tr th span {
+  display: block;
+  font-size: x-large;
+}
 
+.table :where(th, td) {
+  padding: 0.5rem;
+}
 </style>

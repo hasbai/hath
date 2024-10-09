@@ -95,7 +95,7 @@ main {
 }
 
 .btn-icon {
-    @apply cursor-pointer hover:text-teal-500
+    @apply cursor-pointer hover:text-primary
 }
 
 .btn-fixed {
@@ -155,6 +155,10 @@ main {
 .no-scrollbar {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+}
+
+.break-word {
+    word-break: break-word;
 }
 
 /*for tablet, sm=640px, lg=1024px*/

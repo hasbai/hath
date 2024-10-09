@@ -59,3 +59,24 @@ export const humanFileSize = (bytes: number): string => {
   } while (Math.abs(bytes) >= thresh && u < units.length - 1)
   return bytes.toFixed(1) + ' ' + units[u]
 }
+
+export const humanTime = (time: number | Date): string => {
+  const now = new Date().getTime()
+  if (time instanceof Date) {
+    time = time.getTime()
+  }
+  const diff = (now - time) / 1000
+  if (diff < 60) {
+    return useNuxtApp().$i18n.t('just now')
+  }
+  if (diff < 3600) {
+    return Math.floor(diff / 60) + ' ' + useNuxtApp().$i18n.t('minutes')
+  }
+  if (diff < 86400) {
+    return Math.floor(diff / 3600) + ' ' + useNuxtApp().$i18n.t('hours')
+  }
+  if (diff < 2592000) {
+    return Math.floor(diff / 86400) + ' ' + useNuxtApp().$i18n.t('days')
+  }
+  return new Date(time).toLocaleDateString()
+}

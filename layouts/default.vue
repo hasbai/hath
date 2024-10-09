@@ -29,12 +29,10 @@
         </ul>
       </div>
     </div>
-    <Toast></Toast>
   </div>
 </template>
 
 <script lang="ts" setup>
-import Toast from "@/components/feedback/Toast.vue";
 import PageFoot from "~/components/PageFoot.vue";
 import Navbar from "~/components/header/Navbar.vue";
 

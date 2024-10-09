@@ -21,7 +21,7 @@
       </label>
       <select v-model="torrent.torrent_type"
               class="select select-bordered select-sm w-full" name="torrent-category">
-        <option class="hidden" disabled selected value="undefined">---</option>
+        <option disabled selected value="undefined">---</option>
         <option v-for="i in useAppConfig().torrentTypes" :value="i">
           {{ $t(i) }}
         </option>
@@ -35,7 +35,8 @@
       <div class="grid-col-1-2 inline-flex justify-between flex-wrap">
         <span>{{ $t('torrent-size') }}: {{ humanFileSize(torrentData.length) }}</span>
         <span>{{ $t('piece-size') }}: {{ humanFileSize(torrentData.pieceLength) }}</span>
-        <span>{{ $t('infohash') }}: {{ torrentData.infoHash }}</span>
+        <span class="text-nowrap overflow-auto no-scrollbar" style="max-width: 90vw">
+          {{ $t('infohash') }}: {{ torrentData.infoHash }}</span>
       </div>
     </form>
     <div class="upload flex gap-4">

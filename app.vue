@@ -1,11 +1,14 @@
 <template>
   <NuxtRouteAnnouncer/>
   <NuxtLoadingIndicator/>
+  <Toast></Toast>
   <NuxtLayout>
     <NuxtPage/>
   </NuxtLayout>
 </template>
 <script lang="ts" setup>
+import Toast from "~/components/feedback/Toast.vue";
+
 const title = '拾遗录'
 const description = '观察、思考、反馈'
 useSeoMeta({
