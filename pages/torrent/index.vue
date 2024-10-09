@@ -33,6 +33,9 @@ import {type OrderField, Torrent} from "~/models";
 definePageMeta({
   layout: 'torrent'
 })
+useSeoMeta({
+  title: useNuxtApp().$i18n.t('torrent'),
+})
 
 const torrents = reactive<Torrent[]>([])
 let page = ref(0)

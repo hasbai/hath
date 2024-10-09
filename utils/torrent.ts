@@ -17,7 +17,7 @@ function ensure(bool, fieldName) {
   if (!bool) throw new Error(`Torrent is missing required field: ${fieldName}`)
 }
 
-export interface TorrentInfo {
+export interface TorrentData {
   name: string
   announce: string[]
   comment?: string
@@ -40,7 +40,7 @@ export interface TorrentInfo {
   urlList: string[]
 }
 
-export const decodeTorrentFile = async (torrent: Uint8Array): TorrentInfo => {
+export const decodeTorrentFile = async (torrent: Uint8Array): TorrentData => {
   torrent = bencode.decode(torrent)
 
   // sanity check

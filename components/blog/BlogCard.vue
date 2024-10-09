@@ -6,7 +6,8 @@
     </figure>
     <div class="card-body gap-0 justify-evenly">
       <h2 v-if="blog.title" class="card-title my-0 cursor-default">{{ blog.title }}</h2>
-      <article class="text cursor-default" v-html="$mdRenderer.render(blog.excerpt || blog.text)">
+      <article class="text cursor-default"
+               v-html="$mdRenderer.render(blog.description || blog.text)">
       </article>
       <div class="flex justify-between items-center text-sm">
         <span><client-only>

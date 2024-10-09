@@ -7,7 +7,7 @@
       <icon v-else-if="torrent.torrent_type===TorrentType.MUSIC" name="noto-v1:musical-score"/>
       <icon v-else-if="torrent.torrent_type===TorrentType.SOFTWARE" name="noto-v1:laptop"/>
       <icon v-else-if="torrent.torrent_type===TorrentType.GAME" name="noto-v1:joystick"/>
-      <icon v-else-if="torrent.torrent_type===TorrentType.BOOK" name="noto-v1:closed-book"/>
+      <icon v-else-if="torrent.torrent_type===TorrentType.EBOOK" name="noto-v1:closed-book"/>
     </div>
     <div class="flex flex-1">
       <span class="font-bold">{{ torrent.title }}</span><br>

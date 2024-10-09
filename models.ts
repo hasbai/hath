@@ -1,5 +1,6 @@
 import {UUID as UID, uuidv7obj} from "uuidv7";
 import type {Ref} from "vue";
+import {encodeTorrentFile} from "~/utils/torrent";
 
 // @ts-ignore
 export class UUID extends UID {
@@ -66,7 +67,8 @@ export class Content extends Model {
   public parent_id: UUID
   public type: string
   public title: string
-  public text: string
+  public description?: string
+  public text?: string
   public is_me?: boolean
   public likes: number
   public liked?: boolean
@@ -139,7 +141,6 @@ export class Blog extends Content {
     ...Content.exclude,
   ]
 
-  excerpt?: string
   updated_at?: Date
   reply?: number
   view?: number
@@ -150,7 +151,6 @@ export class Blog extends Content {
   constructor(obj: any) {
     super(obj)
     this.updated_at = new Date(obj.updated_at)
-    this.excerpt = obj.excerpt
     this.reply = obj.reply
     this.view = obj.view
     this.locked = obj.locked
@@ -167,18 +167,50 @@ export enum TorrentType {
   MUSIC = 'music',
   GAME = 'game',
   SOFTWARE = 'software',
-  BOOK = 'book',
+  EBOOK = 'ebook',
   MANGA = 'manga',
+  OTHER = 'other',
 }
 
 export class Torrent extends Content {
-  static override exclude = ['file', ...Content.exclude]
+  static override exclude = ['data', ...Content.exclude]
 
   public torrent_type: TorrentType
+  public size: number
+  public infohash: string
+  public data: object
+  public file: Uint8Array
 
   constructor(obj: any) {
     super(obj)
     this.torrent_type = obj.torrent_type
+    this.size = obj.size
+    this.infohash = obj.infohash
+    this.file = obj.file
+    this.data = obj.data
+    if (this.file && !this.data) this.data = decodeTorrentFile(this.file)
+  }
+
+  save(this) {
+    this.title = this.data.name
+    this.description = this.data.comment
+    this.size = this.data.length
+    this.infohash = this.data.infoHash
+    this.file = encodeTorrentFile(this.data)
+  }
+
+  async upload(this) {
+    this.save()
+    const supabase = useSupabaseClient()
+    const {error} = await supabase
+      .from('torrent')
+      .upsert(this)
+    if (error) {
+      console.error(error)
+      useToast().Error(error.message)
+      return
+    }
+    useToast().Success('Torrent uploaded')
   }
 }
 
