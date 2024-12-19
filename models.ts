@@ -179,16 +179,20 @@ export class Torrent extends Content {
   public torrent_type: TorrentType
   public size: number
   public infohash: string
+  public image?: string
   public data: object
   public file: string
+  public extra: object
 
   constructor(obj: any) {
     super(obj)
     this.torrent_type = obj.torrent_type
     this.size = obj.size
     this.infohash = obj.infohash
+    this.image = obj.image
     this.file = obj.file
     this.data = obj.data
+    this.extra = obj.extra || {}
     if (obj.file) {
       this.file = atob(obj.file)
     }

@@ -1,6 +1,6 @@
 <template>
   <main>
-    <form class="grid gap-4 my-4">
+    <div class="form grid gap-4 my-4">
       <label>
         {{ $t('name') }}*
         <!--        <span :data-tip="$t('torrent-title-rule')" class="tooltip tooltip-right">-->
@@ -38,7 +38,18 @@
         <span class="text-nowrap overflow-auto no-scrollbar" style="max-width: 90vw">
           {{ $t('infohash') }}: {{ torrentData.infoHash }}</span>
       </div>
-    </form>
+      <label>IMDB ID</label>
+      <div class="flex gap-4">
+        <input v-model="torrent.extra.imdbID" :placeholder="$t('torrent-imdb-id-rule')"
+               class="input input-sm input-bordered flex-1"
+               name="torrent-imdb-id" type="text"/>
+        <button class="w-16 btn btn-info btn-sm relative" @click="searchMovie">
+          <loader :loading="loadingIMDB">
+            <icon name="mdi:magnify" size="1.5em"></icon>
+          </loader>
+        </button>
+      </div>
+    </div>
     <div class="upload flex gap-4">
       <div class="flex flex-col flex-1 gap-1">
         <input ref="fileInput" accept="application/x-bittorrent"
@@ -57,12 +68,14 @@
         </button>
       </div>
     </div>
+    <douban-rating :rating="torrent.extra.doubanRating"/>
   </main>
 </template>
 <script lang="ts" setup>
 import {decodeTorrentFile, type TorrentData} from "~/utils/torrent";
 import {humanFileSize} from "~/utils";
 import {Torrent} from "~/models";
+import DoubanRating from "~/components/torrent/DoubanRating.vue";
 
 definePageMeta({
   layout: 'torrent'
@@ -108,18 +121,40 @@ const onClick = async () => {
   await torrent.upload()
   loading.value = false
 }
+
+const loadingIMDB = ref(false)
+const searchMovie = async () => {
+  if (!torrent.extra.imdbID) return
+
+  loadingIMDB.value = true
+  const res = await fetch(`/api/movie/${torrent.extra.imdbID}`)
+  if (!res.ok) {
+    const msg = await res.text()
+    useToast().Error(msg)
+    console.error(msg)
+    loadingIMDB.value = false
+    return
+  }
+  const data = await res.json()
+  loadingIMDB.value = false
+
+  torrent.description = torrent.description || data.description
+  torrent.text = torrent.text || data.text
+  torrent.image = torrent.image || data.image
+  Object.assign(torrent.extra, data.extra)
+}
 </script>
 <style scoped>
-form {
+.form {
   grid-template-columns: max-content 1fr;
   align-items: center;
 }
 
-form label {
+.form label {
   @apply inline-flex items-center gap-1;
 }
 
-form label span {
+.form label span {
   @apply text-gray-600;
   line-height: 0;
 }
