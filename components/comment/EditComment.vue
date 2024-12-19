@@ -13,10 +13,12 @@
 </template>
 
 <script lang="ts" setup>
-import {Comment} from "@/models";
+import {Comment, UUID} from "@/models";
 
-const {comment} = defineProps<{ comment: Comment }>()
+const {parent_id} = defineProps<{ parent_id: UUID }>()
 const emit = defineEmits(['created'])
+
+const comment = reactive(new Comment({parent_id: parent_id}))
 
 const loading = ref(false)
 const supabase = useSupabaseClient()

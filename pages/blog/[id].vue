@@ -30,7 +30,7 @@
     <div id="comments" class="flex flex-col gap-2">
       <h2>{{ $t('comment') }}</h2>
       <comment-list :comments="blog.comments"/>
-      <edit-comment :comment="new Comment({parent_id: blog.id})"
+      <edit-comment :parent_id="blog.id"
                     class="mt-4" @created="onCommentCreated"/>
     </div>
   </main>
