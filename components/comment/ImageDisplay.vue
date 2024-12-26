@@ -1,5 +1,5 @@
 <template>
-  <div class="img-grid w-full max-w-lg mx-auto">
+  <div class="img-grid w-full mx-auto">
     <div v-for="(image, i) in images" :key="i">
       <img :alt="`image-${i}`" :src="normalizeStorageSrc(image)"
            tabindex="-1" @click.stop="viewImage"/>
@@ -8,7 +8,7 @@
         <Icon name="mdi:close"/>
       </button>
     </div>
-    <div class="flex justify-center items-center cursor-pointer">
+    <div class="hidden justify-center items-center cursor-pointer">
       <Icon name="mdi:add" size="4em"></Icon>
       <input ref="fileInput" accept="image/*"
              class="file-input w-full h-full top-0 left-0 absolute opacity-0"
@@ -22,7 +22,20 @@ import {useSupabaseClient} from "@/.nuxt/imports";
 import {normalizeStorageSrc} from "@/composables/utils";
 
 const {images} = defineProps<{ images: Array<string> }>()
-const gridCols = computed(() => images && Math.min(images.length + 1, 3))
+const gridCols = computed(() => {
+  switch (images.length + 1) {
+    case 1:
+      return 1
+    case 2:
+      return 2
+    case 3:
+      return 2
+    case 4:
+      return 2
+    default:
+      return 3
+  }
+})
 const supabase = useSupabaseClient()
 const removeImage = async (index: number) => {
   const uid = images![index].split('/').pop()
@@ -70,8 +83,7 @@ const hash = async (file: File) => {
 <style>
 .img-grid {
   display: grid;
-  grid-template-columns: repeat(v-bind(gridCols), minmax(1fr, 8rem));
-  grid-auto-rows: minmax(1fr, 8rem);
+  grid-template-columns: repeat(v-bind(gridCols), 1fr);
   gap: 1rem;
   justify-content: center;
   align-items: center;
@@ -90,7 +102,7 @@ const hash = async (file: File) => {
   cursor: pointer;
 }
 
-dialog .img-grid button {
-  display: block;
+#edit-blog .img-grid .hidden {
+  display: flex;
 }
 </style>

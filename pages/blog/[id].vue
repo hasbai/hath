@@ -13,11 +13,18 @@
       </client-only></span>
     </div>
     <article class="text" v-html="$mdRenderer.render(blog.text)"></article>
+    <image-display :images="blog.images"/>
     <div class="flex flex-col">
-      <div class="flex justify-end items-center">
-        <Icon name="mdi:eye-outline"/>&nbsp;{{ blog.views }}
-        &nbsp;&nbsp;
-        <Icon name="mdi:heart-outline"/>&nbsp;{{ blog.likes }}
+      <div class="inline-flex justify-end gap-4">
+        <span class="inline-flex items-center">
+          <Icon name="mdi:eye-outline"/>&nbsp;{{ blog.views }}
+        </span>
+        <span class="inline-flex items-center">
+          <Icon name="mdi:comment-outline"/>&nbsp;{{ blog.reply }}
+        </span>
+        <span class="inline-flex items-center">
+          <Icon name="mdi:heart-outline"/>&nbsp;{{ blog.likes }}
+        </span>
       </div>
       <button class="btn btn-circle btn-lg text-red-800 text-2xl font-bold self-center"
               @click="onLikeClick"
@@ -41,6 +48,7 @@ import {Blog, Comment, UUID} from "@/models";
 import TagBadge from "@/components/tag/TagBadge.vue";
 import CommentList from "@/components/list/CommentList.vue";
 import EditComment from "~/components/comment/EditComment.vue";
+import ImageDisplay from "~/components/comment/ImageDisplay.vue";
 
 definePageMeta({
   keepalive: true,
@@ -92,10 +100,12 @@ const onLikeClick = () => {
 
 useSeoMeta({
   title: () => blog.title || useNuxtApp().$i18n.t('blog'),
+  description: () => blog.excerpt || useNuxtApp().$i18n.t('blog-description'),
 })
 
 const onCommentCreated = (c: Comment) => {
   blog.comments?.push(c)
+  blog.reply! += 1
 }
 
 </script>>

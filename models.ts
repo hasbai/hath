@@ -141,6 +141,7 @@ export class Blog extends Content {
     ...Content.exclude,
   ]
 
+  published: boolean
   excerpt?: string
   updated_at?: Date
   reply?: number
@@ -151,6 +152,7 @@ export class Blog extends Content {
 
   constructor(obj: any) {
     super(obj)
+    this.published = obj.published
     this.updated_at = new Date(obj.updated_at)
     this.excerpt = obj.excerpt
     this.reply = obj.reply

@@ -1,5 +1,5 @@
 <template>
-  <main class="gap-4">
+  <main id="edit-blog" class="gap-4">
     <h-img :src="`/api/image?hash=${blog.id}`" alt="background image"
            class="rounded-2xl" style="height: 30vh"/>
     <input v-model="blog.title" :placeholder="$t('title-placeholder')"
@@ -9,21 +9,19 @@
       <label class="label" for="image-input">{{ $t('images') }}</label>
       <ImageDisplay :images="blog.images"/>
     </div>
+    <div>
+      <label class="label" for="tag-name-input">{{ $t('tags') }}</label>
+      <TagInput v-model="blog.tags"/>
+    </div>
+    <div class="flex justify-between">
+      <label class="label" for="publish-input">{{ $t('publish') }}</label>
+      <input v-model="blog.published" class="toggle toggle-primary" name="publish-input"
+             type="checkbox"/>
+    </div>
     <button class="btn btn-primary" @click="onClick">
       <span v-show="loading" class="absolute loading loading-spinner"></span>
       <span :class="{'opacity-0': loading}">Submit</span>
     </button>
-    <div class="extra">
-      <div>
-        <label class="label" for="tag-name-input">{{ $t('tags') }}</label>
-        <TagInput v-model="blog.tags"/>
-      </div>
-      <!--      <label class="label cursor-pointer">-->
-      <!--        <span class="label-text">Anonymous</span>-->
-      <!--        <input v-model="blog.anonymous" class="toggle toggle-primary" name="anonymous"-->
-      <!--               type="checkbox"/>-->
-      <!--      </label>-->
-    </div>
   </main>
 </template>
 <script lang="ts" setup>
@@ -32,16 +30,35 @@ import {Blog, Tag} from "@/models";
 import ImageDisplay from "@/components/comment/ImageDisplay.vue";
 
 definePageMeta({
-  keepalive: true
+  // keepalive: true
+  // TODO: make keepalive true
 })
-
-const blog = reactive(new Blog({}))
 
 const supabase = useSupabaseClient()
 const toast = useToast()
 const loading = ref(false)
-const dialog = ref<HTMLDialogElement | null>(null)
 
+let blog = reactive(new Blog({}))
+const loadBlog = async (id: string) => {
+  const {data, error} = await supabase.from('blogs')
+      .select(select.blog)
+      .eq('id', id)
+      .single()
+  if (error) {
+    console.error(error)
+    toast.Error(error.message)
+  }
+  blog = reactive(new Blog(data))
+}
+const route = useRoute()
+if (route.query && route.query.id) {
+  await loadBlog(route.query.id as string)
+}
+// watch(() => route.query, async (now, before) => {
+//   if (now.id && !before || now.id != before?.id) {
+//     await loadBlog(now.id as string)
+//   }
+// }, {immediate: true, deep: true})
 const _tags: Tag[] = Object.assign([], blog.tags) // original tags
 const onClick = async () => {
   loading.value = true
@@ -82,9 +99,7 @@ const onClick = async () => {
     return
   }
   toast.Success('Success')
-  emit('success')
-  dialog.value?.close()
   loading.value = false
-  Object.assign(blog, new Blog({parent_id: props.parent_id}))
+  navigateTo(`/blog/${blog.id}`)
 }
 </script>

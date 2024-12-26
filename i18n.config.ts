@@ -5,8 +5,11 @@ export default defineI18nConfig(() => ({
     'zh-CN': {
       welcome: '欢迎',
       title: '拾遗录',
+      description: '观察、思考、反馈',
+      admin: '管理',
       home: '首页',
       blog: '博客',
+      'blog-description': '博客',
       comment: '评论',
       images: '图片',
       'title-placeholder': '标题',
@@ -39,12 +42,16 @@ export default defineI18nConfig(() => ({
       noData: '暂无数据',
       noMore: '没有更多了',
       noComment: '暂无评论',
+      publish: '发表',
     },
     en: {
       welcome: 'Welcome',
       title: 'Hath',
+      description: "Hasbai's personal website.",
+      admin: 'Admin',
       home: 'Home',
       blog: 'Blog',
+      'blog-description': 'Blog description',
       comment: 'Comments',
       images: 'Images',
       'title-placeholder': 'Title',
@@ -77,6 +84,7 @@ export default defineI18nConfig(() => ({
       noData: 'No data',
       noMore: 'No more',
       noComment: 'No comment',
+      publish: 'Publish',
     }
   }
 }))

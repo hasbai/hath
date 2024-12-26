@@ -45,7 +45,6 @@ const onClick = async () => {
   }
   loading.value = false
   Object.assign(comment, new Comment({parent_id: comment.parent_id}))
-  console.log(comment.parent_id.toString())
 }
 </script>
 

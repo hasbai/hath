@@ -6,20 +6,25 @@
   </NuxtLayout>
 </template>
 <script lang="ts" setup>
-const title = '拾遗录'
-const description = '观察、思考、反馈'
+
+const route = useRoute()
+const t = useNuxtApp().$i18n.t
+
 useSeoMeta({
-  title: title,
-  ogTitle: title,
-  description: description,
-  ogDescription: description,
+  title: t('title'),
+  ogTitle: t('title'),
+  description: t('description'),
+  ogDescription: t('description'),
   ogImage: 'https://www.hath.top/image/pwa-512x512.png',
   twitterCard: 'summary_large_image',
 })
-
 useHead({
   titleTemplate: (titleChunk) => {
-    return titleChunk && titleChunk != title ? `${titleChunk} - ${title}` : title
+    let suffix = 'title'
+    if (route.path.includes('admin')) suffix = 'admin'
+    return titleChunk
+        ? `${titleChunk} | ${t(suffix)}`
+        : t(suffix)
   }
 })
 </script>

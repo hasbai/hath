@@ -15,11 +15,17 @@
         <div class="inline-flex gap-2">
           <TagBadge v-for="tag in blog.tags" :key="tag.id.toString()" :tag="tag"/>
         </div>
-        <span class="inline-flex items-center">
+        <div class="inline-flex justify-end gap-2">
+          <span class="inline-flex items-center">
             <Icon name="mdi:eye-outline"/>&nbsp;{{ blog.views }}
-            &nbsp;
+          </span>
+          <span class="inline-flex items-center">
+          <Icon name="mdi:comment-outline"/>&nbsp;{{ blog.reply }}
+          </span>
+          <span class="inline-flex items-center">
             <Icon name="mdi:heart-outline"/>&nbsp;{{ blog.likes }}
           </span>
+        </div>
       </div>
     </div>
     <nuxt-link :to="`/blog/${blog.id}`"></nuxt-link>

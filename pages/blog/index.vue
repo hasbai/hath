@@ -35,6 +35,7 @@ const supabase = useSupabaseClient()
 const toast = useToast()
 const loadFunction = async (blogs: Blog[], ascending = false) => {
   let query = supabase.from('blog').select(select.blog)
+      .eq('published', true)
       .order(order.value, {ascending: false})
       .range(0, PAGE_SIZE - 1)
   if (blogs.length > 0) {
@@ -48,10 +49,5 @@ const loadFunction = async (blogs: Blog[], ascending = false) => {
     return
   }
   return Blog.fromArray<Blog>(data)
-}
-const edit = () => {
-  needAuth()
-  const dialog = document.getElementById('edit_blog') as HTMLDialogElement
-  dialog.showModal()
 }
 </script>
