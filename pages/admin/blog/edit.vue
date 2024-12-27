@@ -7,7 +7,7 @@
     <Editor v-model="blog.text" :placeholder="$t('blog-placeholder')"/>
     <div>
       <label class="label" for="image-input">{{ $t('images') }}</label>
-      <ImageDisplay :images="blog.images"/>
+      <ImageDisplay :edit="true" :images="blog.images"/>
     </div>
     <div>
       <label class="label" for="tag-name-input">{{ $t('tags') }}</label>
@@ -49,6 +49,7 @@ const loadBlog = async (id: string) => {
     toast.Error(error.message)
   }
   blog = reactive(new Blog(data))
+  console.log(blog)
 }
 const route = useRoute()
 if (route.query && route.query.id) {

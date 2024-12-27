@@ -7,7 +7,7 @@
       <div
           v-for="blog in blogs"
           :key="blog.id.toString()"
-          class="w-full grid grid-cols-[1fr_auto_auto] items-center gap-x-4 gap-y-2"
+          class="w-full grid grid-cols-[1fr_auto_auto] items-center gap-x-4 gap-y-1"
       >
         <h3>
           <nuxt-link :to="`/admin/blog/edit?id=${blog.id}`" class="hover:underline">
@@ -22,7 +22,23 @@
         <button class="btn btn-ghost" @click="deleteBlog(blog)">
           <icon class="text-red-700" name="mdi:trash" size="1.25em"></icon>
         </button>
-
+        <div class="text-sm inline-flex justify-between">
+          <span>{{ blog.id.getTime().toLocaleDateString() }}</span>
+          <div class="inline-flex gap-2">
+            <TagBadge v-for="tag in blog.tags" :key="tag.id.toString()" :tag="tag"/>
+          </div>
+          <div class="inline-flex gap-2 pr-2">
+            <span class="inline-flex items-center">
+              <Icon name="mdi:comment-outline"/>&nbsp;{{ blog.reply }}
+            </span>
+            <span class="inline-flex items-center">
+             <Icon name="mdi:heart-outline"/>&nbsp;{{ blog.likes }}
+            </span>
+            <span class="inline-flex items-center">
+              <Icon name="mdi:eye-outline"/>&nbsp;{{ blog.views }}
+            </span>
+          </div>
+        </div>
       </div>
     </transition-group>
     <div class="join flex justify-center">
@@ -45,6 +61,7 @@
 <script lang="ts" setup>
 import {Blog, type OrderField} from "@/models";
 import {select} from "@/composables/myFetch";
+import TagBadge from "~/components/tag/TagBadge.vue";
 
 definePageMeta({
   keepalive: true

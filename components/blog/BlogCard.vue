@@ -17,13 +17,13 @@
         </div>
         <div class="inline-flex justify-end gap-2">
           <span class="inline-flex items-center">
-            <Icon name="mdi:eye-outline"/>&nbsp;{{ blog.views }}
-          </span>
-          <span class="inline-flex items-center">
           <Icon name="mdi:comment-outline"/>&nbsp;{{ blog.reply }}
           </span>
           <span class="inline-flex items-center">
             <Icon name="mdi:heart-outline"/>&nbsp;{{ blog.likes }}
+          </span>
+          <span class="inline-flex items-center">
+            <Icon name="mdi:eye-outline"/>&nbsp;{{ blog.views }}
           </span>
         </div>
       </div>

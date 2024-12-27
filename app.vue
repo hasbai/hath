@@ -4,8 +4,10 @@
   <NuxtLayout>
     <NuxtPage/>
   </NuxtLayout>
+  <Toast></Toast>
 </template>
 <script lang="ts" setup>
+import Toast from "~/components/feedback/Toast.vue";
 
 const route = useRoute()
 const t = useNuxtApp().$i18n.t
@@ -22,7 +24,7 @@ useHead({
   titleTemplate: (titleChunk) => {
     let suffix = 'title'
     if (route.path.includes('admin')) suffix = 'admin'
-    return titleChunk
+    return titleChunk && titleChunk != t('title')
         ? `${titleChunk} | ${t(suffix)}`
         : t(suffix)
   }

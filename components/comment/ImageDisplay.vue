@@ -1,17 +1,19 @@
 <template>
   <div class="img-grid w-full mx-auto">
-    <div v-for="(image, i) in images" :key="i">
+    <div v-for="(image, i) in images" :key="i"
+         :class="{'aspect-square': gridCols>1}"
+         class="w-full h-full mx-auto max-w-md">
       <img :alt="`image-${i}`" :src="normalizeStorageSrc(image)"
            tabindex="-1" @click.stop="viewImage"/>
-      <button class="absolute hidden top-0 right-0 btn btn-circle btn-sm btn-ghost"
+      <button v-if="edit" class="absolute top-0 right-0 btn btn-circle btn-sm btn-ghost"
               @click.stop="removeImage(i)">
         <Icon name="mdi:close"/>
       </button>
     </div>
-    <div class="hidden justify-center items-center cursor-pointer">
-      <Icon name="mdi:add" size="4em"></Icon>
+    <div v-if="edit" class="w-32 h-16 relative mx-auto justify-center items-center">
+      <Icon class="w-full h-full" name="mdi:add"></Icon>
       <input ref="fileInput" accept="image/*"
-             class="file-input w-full h-full top-0 left-0 absolute opacity-0"
+             class="file-input w-full h-full top-0 left-0 absolute opacity-0 p-0 cursor-pointer"
              multiple name="image-input" type="file"
              @change="onFileInputChange"/>
     </div>
@@ -21,21 +23,10 @@
 import {useSupabaseClient} from "@/.nuxt/imports";
 import {normalizeStorageSrc} from "@/composables/utils";
 
-const {images} = defineProps<{ images: Array<string> }>()
-const gridCols = computed(() => {
-  switch (images.length + 1) {
-    case 1:
-      return 1
-    case 2:
-      return 2
-    case 3:
-      return 2
-    case 4:
-      return 2
-    default:
-      return 3
-  }
-})
+const {images, edit} = defineProps<{ images: Array<string>, edit?: boolean }>()
+const gridCols = computed(
+    () => Math.min(images.length + Number(edit), 3)
+)
 const supabase = useSupabaseClient()
 const removeImage = async (index: number) => {
   const uid = images![index].split('/').pop()
@@ -89,20 +80,9 @@ const hash = async (file: File) => {
   align-items: center;
 }
 
-.img-grid > div {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
 .img-grid img {
   object-fit: cover;
   width: 100%;
   height: 100%;
-  cursor: pointer;
-}
-
-#edit-blog .img-grid .hidden {
-  display: flex;
 }
 </style>

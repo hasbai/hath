@@ -3,7 +3,7 @@
     <h-img :src="`/api/image?hash=${blog.id}`" alt="background image"
            class="rounded-2xl" style="height: 30vh"/>
     <h1 v-if="blog.title" class="h1 text-center">{{ blog.title }}</h1>
-    <div class="relative -top-4 flex justify-between items-center text-sm">
+    <div class="relative -top-4 flex justify-between items-center">
       <span class="w-20"></span>
       <div class="inline-flex gap-2">
         <TagBadge v-for="tag in blog.tags" :key="tag.id.toString()" :tag="tag"/>
@@ -17,13 +17,13 @@
     <div class="flex flex-col">
       <div class="inline-flex justify-end gap-4">
         <span class="inline-flex items-center">
-          <Icon name="mdi:eye-outline"/>&nbsp;{{ blog.views }}
-        </span>
-        <span class="inline-flex items-center">
           <Icon name="mdi:comment-outline"/>&nbsp;{{ blog.reply }}
         </span>
         <span class="inline-flex items-center">
           <Icon name="mdi:heart-outline"/>&nbsp;{{ blog.likes }}
+        </span>
+        <span class="inline-flex items-center">
+          <Icon name="mdi:eye-outline"/>&nbsp;{{ blog.views }}
         </span>
       </div>
       <button class="btn btn-circle btn-lg text-red-800 text-2xl font-bold self-center"
@@ -59,7 +59,7 @@ const route = useRoute()
 const supabase = useSupabaseClient()
 
 const blogFromCache = async () => {
-  if (!process.browser) return
+  if (!import.meta.browser) return
   const cache = await caches.open('api')
   const resp = await cache.matchAll('/rest/v1/blogs', {ignoreSearch: true})
   const result = await Promise.all(
@@ -98,9 +98,10 @@ const onLikeClick = () => {
   blog.changeLike(loading)
 }
 
+const t = useNuxtApp().$i18n.t
 useSeoMeta({
-  title: () => blog.title || useNuxtApp().$i18n.t('blog'),
-  description: () => blog.excerpt || useNuxtApp().$i18n.t('blog-description'),
+  title: () => blog.title || t('blog'),
+  description: () => blog.excerpt || t('blog-description'),
 })
 
 const onCommentCreated = (c: Comment) => {
