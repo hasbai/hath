@@ -7,6 +7,8 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml /app/
 RUN pnpm install
 COPY . /app
+COPY .env /app
+COPY .npmrc /app
 RUN pnpm build
 
 FROM node:lts-alpine
