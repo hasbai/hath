@@ -24,9 +24,10 @@ jobs:
       - name: 'Create env file'
         run: |
           echo "${{ vars.ENV_FILE }}" > .env
+          echo "${{ secrets.NPMRC }}" > .npmrc
       - name: Build Image
         run: |
           docker build . --tag ghcr.io/${{github.actor}}/${{ github.event.repository.name }}:latest
           docker push ghcr.io/${{github.actor}}/${{ github.event.repository.name }}:latest
       - name: Deploy
-        run: curl -X POST ${{ secrets.DOCKER_WEBHOOK}}
+        run: curl -X POST ${{ secrets.DOCKER_WEBHOOK }}
