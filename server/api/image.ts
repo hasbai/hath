@@ -38,5 +38,5 @@ export default defineEventHandler(async (event) => {
     index = Math.floor(Math.random() * images.length)
   }
 
-  await sendRedirect(event, `/images/${images[index]}`, 302)
+  await sendRedirect(event, `/images/${images[index]}`, 301)
 })

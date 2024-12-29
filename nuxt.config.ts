@@ -26,6 +26,16 @@ export default defineNuxtConfig({
       link: [
         {rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous'},
         {rel: 'preconnect', href: 'https://fonts.googleapis.com', crossorigin: 'anonymous'},
+        {
+          rel: 'preload',
+          as: 'style',
+          href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap',
+        },
+        {
+          rel: 'preload',
+          as: 'style',
+          href: 'https://fonts.googleapis.com/css2?family=Orbitron',
+        },
         {rel: 'shortcut icon', href: 'favicon.ico'},
         {rel: 'icon', href: '/image/favicon-16x16.png', type: 'image/png', sizes: '16x16'},
         {rel: 'icon', href: '/image/favicon-32x32.png', type: 'image/png', sizes: '32x32'},
