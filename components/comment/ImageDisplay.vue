@@ -3,8 +3,7 @@
     <div v-for="(image, i) in images" :key="i"
          :class="{'aspect-square': gridCols>1}"
          class="w-full h-full mx-auto max-w-md">
-      <img :alt="`image-${i}`" :src="normalizeStorageSrc(image)"
-           tabindex="-1" @click.stop="viewImage"/>
+      <img :alt="`image-${i}`" :src="image" tabindex="-1" @click.stop="viewImage"/>
       <button v-if="edit" class="absolute top-0 right-0 btn btn-circle btn-sm btn-ghost"
               @click.stop="removeImage(i)">
         <Icon name="mdi:close"/>
@@ -21,7 +20,6 @@
 </template>
 <script lang="ts" setup>
 import {useSupabaseClient} from "@/.nuxt/imports";
-import {normalizeStorageSrc} from "@/composables/utils";
 
 const {images, edit} = defineProps<{ images: Array<string>, edit?: boolean }>()
 const gridCols = computed(
