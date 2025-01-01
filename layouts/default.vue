@@ -31,7 +31,6 @@
     </div>
     <div class="drawer">
       <input id="side-bar" class="drawer-toggle" type="checkbox"/>
-      <div class="w-64 hidden 2xl:block" style="grid-column-start: 3"></div>
       <div class="drawer-content">
         <slot></slot>
         <page-foot/>
